@@ -1,5 +1,6 @@
 # serde-single-key-map
 
+[![GitHub Actions](https://github.com/messense/serde-single-key-map/workflows/CI/badge.svg)](https://github.com/messense/serde-single-key-map/actions?query=workflow%3ACI)
 [![Crates.io](https://img.shields.io/crates/v/serde-single-key-map.svg)](https://crates.io/crates/serde-single-key-map)
 [![docs.rs](https://docs.rs/serde-single-key-map/badge.svg)](https://docs.rs/serde-single-key-map/)
 

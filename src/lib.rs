@@ -48,7 +48,7 @@
 use std::fmt;
 use std::marker::PhantomData;
 
-use serde::de::{self, Deserializer, DeserializeOwned};
+use serde::de::{self, DeserializeOwned, Deserializer};
 
 pub fn deserialize<'de, V, D>(d: D) -> Result<V, D::Error>
 where
@@ -74,7 +74,7 @@ where
         {
             let item: Option<(String, V)> = visitor.next_entry()?;
             if let Some((_, value)) = item {
-               return Ok(value);
+                return Ok(value);
             }
             Err(de::Error::custom("No single key value in map"))
         }
