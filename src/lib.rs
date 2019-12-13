@@ -121,7 +121,6 @@ mod tests {
     }
 
     #[test]
-    #[should_panic]
     fn test_deserialize_with_multiple_keys() {
         let s = r#"{
             "name": "test",
@@ -135,16 +134,15 @@ mod tests {
               "extra": "test"
             }
           }"#;
-        let _project: Project = serde_json::from_str(s).expect("deserialize failed");
+        assert!(serde_json::from_str::<Project>(s).is_err());
     }
 
     #[test]
-    #[should_panic]
     fn test_deserialize_with_empty_map() {
         let s = r#"{
             "name": "test",
             "items": {}
           }"#;
-        let _project: Project = serde_json::from_str(s).expect("deserialize failed");
+        assert!(serde_json::from_str::<Project>(s).is_err());
     }
 }
