@@ -1,5 +1,8 @@
 # serde-single-key-map
 
+[![Crates.io](https://img.shields.io/crates/v/serde-single-key-map.svg)](https://crates.io/crates/serde-single-key-map)
+[![docs.rs](https://docs.rs/serde-single-key-map/badge.svg)](https://docs.rs/serde-single-key-map/)
+
 Unwrap a single key map with serde.
 
 ## Installation
