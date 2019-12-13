@@ -52,6 +52,73 @@ fn main() {
 }
 ```
 
+## Motivation
+
+The primary use case for this crate is to remove a unnessery intermediary struct when deserializing. For example, consider the following XML:
+
+```xml
+<GetBucketTaggingOutput>
+   <TagSet>
+      <Tag>
+         <Key>key1</Key>
+         <Value>value1</Value>
+      </Tag>
+      <Tag>
+         <Key>key2</Key>
+         <Value>value2</Value>
+      </Tag>
+   </TagSet>
+</GetBucketTaggingOutput>
+```
+
+There is only one `TagSet` element in `GetBucketTaggingOutput`, so naturally you'd write the following code to represent it:
+
+```rust
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+struct GetBucketTaggingOutput {
+    #[serde(rename = "TagSet")]
+    pub tag_set: Vec<Tag>,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+pub struct Tag {
+    /// Name of the tag.
+    #[serde(rename = "Key")]
+    pub key: String,
+    /// Value of the tag.
+    #[serde(rename = "Value")]
+    pub value: String,
+}
+```
+
+But it won't work, you'd have to add a intermediary `TagSet` struct to make it work:
+
+```rust
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+struct GetBucketTaggingOutput {
+    #[serde(rename = "TagSet")]
+    tag_set: TagSet,
+}
+
+#[derive(Serialize, Deserialize, Debug, PartialEq)]
+struct TagSet {
+    #[serde(rename = "Tag")]
+    tags: Vec<Tag>,
+}
+```
+
+with `serde-single-key-map` you can make it work with a single line of change:
+
+```diff
+ #[derive(Serialize, Deserialize, Debug, PartialEq)]
+ struct GetBucketTaggingOutput {
++    #[serde(deserialize_with = "serde_single_key_map::deserialize")]
+     #[serde(rename = "TagSet")]
+     pub tag_set: Vec<Tag>,
+ }
+```
+
+
 ## License
 
 This work is released under the MIT license. A copy of the license is provided in the [LICENSE](./LICENSE) file.
